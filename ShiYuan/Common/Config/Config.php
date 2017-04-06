@@ -14,7 +14,7 @@ return array(
     'DB'=>array(
         'Mysql'=>array(
             'dsn'=>'mysql:host=localhost;',
-            'dbName'=>'test',
+            'dbName'=>'ten',
             'username'=>'root',
             'password'=>'',
             'charset'=>'utf8',

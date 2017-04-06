@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title><?php echo $Title; ?></title>
+    <link rel="stylesheet" href="http://localhost/Public/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://localhost/Public/static/css/bootstrap-theme.min.css">
+    <link href="http://localhost/Public/static/css/shoping.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://localhost/Public/static/css/sweetalert.css">
+    <style>
+        a:hover
+        {
+            opacity: 0.6;
+        }
+    </style>
+	<script src="http://localhost/Public/static/js/jquery.min.js"></script>
+    <script src="http://localhost/Public/static/js/bootstrap.min.js"></script>  
+    <script src="http://localhost/Public/static/js/sweetalert.min.js"></script>
+    <script src="http://localhost/Public/static/js/details.js"></script>
+    <script src='http://localhost/Public/static/js/jquery.elevatezoom.js'></script>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container-fluid" style="font-size:2.2rem;padding-top:1rem;text-align:center;">
+        <div class="col-xs-4 col-sm-4">
+            <div class="dropdown">
+                <a href="http://localhost/index">
+                    <span class="glyphicon glyphicon-home"></span>
+                </a>
+            </div>
+        </div>
+        <div class="col-xs-4 col-sm-4">
+            <div class="dropdown">
+                <a href="http://localhost/productlist">
+                    <span class="glyphicon glyphicon-th-large"></span>
+                </a>
+            </div>
+        </div>
+        <div class="col-xs-4 col-sm-4">
+            <div class="dropdown">
+                <a href="http://localhost/member">
+                    <span class="glyphicon glyphicon-user"></span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+
+
+        <div>
+            <div class="product-thumb transition" >
+                <div class="image"><a href="#"><img src="http://localhost/Public/static/images/b.jpg" alt="MacBook" title="MacBook" width="100%"  ></a></div>
+            </div>
+           <label>竹荪为竹林腐生真菌，以分解死亡的竹根、竹竿和竹叶等为营养源。野生时多生长于楠竹、平竹、苦竹、慈竹等竹林里，其土质有黑色壤土、紫色土、黄泥土等。竹荪营腐生生活，其菌丝能穿透许多微生物的拮抗线，能利用许多微生物不能利用的纤维素、木质素。因此，人工栽培时，可用竹木屑及多种农作物秸秆及少量无机盐等，即可满足其营养需求。</label>
+
+            <div><span style="color: red">
+                        价格:￥115</span> <span class="price pull-right">
+                        已售:2115</span></div>
+            <br>
+            <div class="input-group input-group">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default"  id="minus" type="button"><span style="color: rgb(255, 140, 60);" class="glyphicon glyphicon-minus" ></span></button>
+                         </span>
+                <input type="text" class="form-control" id="num" value="1">
+                             <span class="input-group-btn">
+                           <button class="btn btn-default" id="plus" type="button"><span style="color: rgb(255, 140, 60);" class="glyphicon glyphicon-plus" ></span></button>
+                         </span>
+            </div>
+            <br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+        <button type="button" class="btn  btn-warning btn-lg btn-block">加入购物车</button>
+        </div>
+        <div class="col-xs-6">
+        <button type="button" class="btn btn-danger btn-lg btn-block pull-right">立刻购买</button>
+        </div>
+    </div>
+    <hr>
+  <div class="tabbable" id="tabs-production" style="padding-top:20px"> <!-- Only required for left/right tabs -->
+  <ul class="nav nav-tabs">
+	<li class="active"><a href="#panel-details" data-toggle="tab" contenteditable="true">产品详情</a></li>
+	<li class=""><a href="#panel-message" data-toggle="tab" contenteditable="true">用户评论</a></li>
+	<li class=""><a href="#panel-server" data-toggle="tab" contenteditable="true">售后服务</a></li>
+  </ul>
+  <div class="tab-content">
+	<div class="tab-pane active" id="panel-details" contenteditable="true">
+	  <div class="product-thumb transition" >
+        <img src="http://localhost/Public/static/images/a.jpg" alt="MacBook" title="MacBook" width="100%" >
+        <div >
+            <span>
+                文字描述
+            </span>
+        </div>
+    </div>
+	</div>
+	<div class="tab-pane" id="panel-message" contenteditable="true">
+	  <p>用户评论</p>
+	</div>
+	<div class="tab-pane" id="panel-server" contenteditable="true">
+	  <p>售后服务</p>
+	</div>
+  </div>
+</div>
+              
+
+</div>
+<footer style="width: 100%;background-color:#303030; margin-top: 1rem;padding-top: 30px;color:#fff">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-4 col-sm-4 col-xs-4">
+                <h5>网超信息</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">物流配送</a></li>
+                    <li><a href="#">隐私政策</a></li>
+                    <li><a href="#">使用条款</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-xs-4">
+                <h5>会员服务</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">联系我们</a></li>
+                    <li><a href="#">网站地图</a></li>
+                    <li><a href="#">推广会员</a></li>
+                    <li><a href="#">优惠商品</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-xs-4">
+                <h5>会员中心</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">会员中心</a></li>
+                    <li><a href="#">历史订单</a></li>
+                    <li><a href="#">收藏列表</a></li>
+                    <li><a href="#">订阅咨询</a></li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <p style="color: white;margin-bottom: 3rem">Powered By <a href="http://localhost/index">一诺科技有限公司</a><br> 鲁鲁奴农品商城 © 2017</p>
+        <hr>
+    </div>
+</footer>
+
+</body>
+</html>

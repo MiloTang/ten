@@ -165,6 +165,8 @@ class Model
     }
     public function execute()
     {
+        echo $this->_sql;
+        PrintFm($this->_params);
         try
         {
             $stmt = $this->_pdo->prepare($this->_sql);
