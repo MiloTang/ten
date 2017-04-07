@@ -11,6 +11,9 @@
         {
             opacity: 0.6;
         }
+        i{
+            color:red;
+        }
     </style>
     <script src="http://localhost/Public/static/js/jquery.min.js"></script>
     <script src="http://localhost/Public/static/js/bootstrap.min.js"></script>
@@ -92,12 +95,8 @@
                             <span>验证码</span>
                         </div>
                         <input class="form-control" name="verifycode" id="verifycode" placeholder="验证码"  type="text">
-
                     </div>
-
-
                 </div>
-
                 <i></i>
 
                 <div><img id="updatecode"  src="http://localhost/member/code"/>点击图片刷新</div>
@@ -150,12 +149,91 @@
 </footer>
 <script>
     $().ready(function() {
-
         $('#updatecode').click(function () {
             this.src = "http://localhost/member/code/" + Math.random();
         });
         $('#subform').click(function(){
-            $('form').submit();
+            var username=$('#username').val();
+            var telephone=$('#telephone').val();
+            var password=$('#password').val();
+            var verifycode=$('#verifycode').val();
+            if (!(/^[a-zA-z]\w{5,15}$/.test(username)))
+            {
+                $("i:eq(0)").html("用户名由字母、数字、下划线组成，字母开头，6-16位");
+                return false;
+            }
+            if(!(/^1[34578]\d{9}$/.test(telephone))){
+                $("i:eq(1)").html("手机号码有误，请重填");
+                return false;
+            }
+            if (!(/^[a-zA-z]\w{5,15}$/.test(password)))
+            {
+                $("i:eq(2)").html("密码由字母、数字、下划线组成，字母开头，6-16位");
+                return false;
+            }
+            if (verifycode.length!=4)
+            {
+                $("i:eq(3)").html("验证码长度不对");
+                return false;
+            }
+            else
+            {
+                $.ajax
+                ({
+                    url: "http://localhost/member/verify",
+                    type: "post",
+                    dataType: "json",
+                    data:{'username':username,'telephone':telephone,'verifycode':verifycode},
+                    error: function()
+                    {
+                        $("i:eq(3)").html("验证出现问题请稍候再试");
+                        return false;
+                    },
+                    success: function (result)
+                    {
+                        alert(result);
+                        if (result.code=='0')
+                        {
+                            $('form').submit();
+                        }
+                        else
+                        {
+
+                            if(result.code=='2'){
+                                $("i:eq(1)").html(result.err);
+                                return false;
+                            }
+                            if(result.code=='1'){
+                                $('#updatecode').attr('src',"http://localhost/member/code/"+ Math.random());
+                                $("i:eq(3)").html(result.err);
+                                return false;
+                            }
+                            if(result.code=='3'){
+                                $("i:eq(0)").html(result.err);
+                                return false;
+                            }
+
+                        }
+                    }
+                });
+            }
+        });
+
+        $('#username').focus(function ()
+        {
+            $("i:eq(0)").html("");
+        });
+        $('#telephone').focus(function ()
+        {
+            $("i:eq(1)").html("");
+        });
+        $('#password').focus(function ()
+        {
+            $("i:eq(2)").html("");
+        });
+        $('#verifycode').focus(function ()
+        {
+            $("i:eq(3)").html("");
         });
     });
 </script>

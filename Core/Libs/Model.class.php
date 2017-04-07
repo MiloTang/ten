@@ -15,6 +15,7 @@ class Model
     private $_sql;
     private $_params;
     private $_stmt;
+    public  $code;
     private function __clone()
     {
 
@@ -47,7 +48,8 @@ class Model
             $this->_pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
             $this->_pdo->setAttribute(\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY,true);
         } catch (\PDOException $e) {
-               GetError($e->getMessage());
+            $this->code=$e->getCode();
+              // GetError($e->getMessage());
         }
         return $this->_pdo;
     }
@@ -90,7 +92,8 @@ class Model
         }
         catch (\PDOException $e)
         {
-                GetError($e->getMessage());
+            $this->code=$e->getCode();
+            //GetError($e->getMessage());
         }
         return null;
     }
@@ -165,8 +168,6 @@ class Model
     }
     public function execute()
     {
-        echo $this->_sql;
-        PrintFm($this->_params);
         try
         {
             $stmt = $this->_pdo->prepare($this->_sql);
@@ -175,7 +176,8 @@ class Model
         }
         catch (\PDOException $e)
         {
-            GetError($e->getMessage());
+            $this->code=$e->getCode();
+            //GetError($e->getMessage());
         }
         return true;
     }

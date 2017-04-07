@@ -11,6 +11,9 @@
         {
             opacity: 0.6;
         }
+        i{
+            color:red;
+        }
     </style>
     <script src="http://localhost/Public/static/js/jquery.min.js"></script>
     <script src="http://localhost/Public/static/js/bootstrap.min.js"></script>
@@ -168,7 +171,7 @@
             {
                 $.ajax
                 ({
-                    url: "http://localhost/member/verifyCode",
+                    url: "http://localhost/member/verify",
                     type: "post",
                     dataType: "json",
                     data:{"verifycode":verifycode},

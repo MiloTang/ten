@@ -36,8 +36,15 @@ class MemberController extends BaseController
          $this->display('register.html');
       }else{
          $U=new UserModel();
-         $user=array('username'=>$this->params()['username'],'password'=>$this->params()['password'],'login_ip'=>'127.0.0.1');
-         $U->userI($user);
+         $user=array('username'=>$this->params()['username'],'telephone'=>$this->params()['telephone'],'password'=>$this->params()['password'],'login_ip'=>'127.0.0.1');
+         $code=$U->userI($user);
+         if($code==0){
+            header("refresh:5;url=http://localhost/member/login");
+            echo '注册成功<br>'.'请登陆五秒后自动转跳';
+         }else{
+            header("refresh:5;url=http://localhost/member/register");
+            echo '注册失败<br>'.'请重新注册五秒后自动转跳';
+         }
       }
 
    }
@@ -52,15 +59,35 @@ class MemberController extends BaseController
       $v->imgEn(4);
       $_SESSION['code']=$v->getCode();
    }
-   public  function verifyCode(){
-      if ($_SESSION['code']==$this->params()['verifycode']) {
-         echo json_encode('true');
-      }else{
-         echo 'false';
+   public  function verify(){
+      $json_arr=array('code'=>'0','err'=>'验证通过');
+      $U=new UserModel();
+      if (!(isset($this->params()['verifycode'])&&isset($_SESSION['code'])&&$_SESSION['code']==$this->params()['verifycode'])) {
+         $json_arr=array('code'=>'1','err'=>'验证码错误');
+         echo json_encode($json_arr);
+         return;
       }
 
+      if (isset($this->params()['username'])){
+         $user=array(':username'=>$this->params()['username'],':telephone'=>$this->params()['telephone']);
+         $rst=$U->checkQ($user);
+         if ($rst){
+            if ($rst['telephone']!=''){
+               $json_arr=array('code'=>'2','err'=>'电话已经存在');
+               echo json_encode($json_arr);
+               return;
+            }
+            if ($rst['username']!=''){
+               $json_arr=array('code'=>'3','err'=>'用户名已经存在');
+               echo json_encode($json_arr);
+               return;
+            }
+         }
+      }
+      echo json_encode($json_arr);
+      return;
    }
-   public  function verifyLogin(){
+   public function verifyLogin(){
       if ($this->params()['token']!=$_SESSION['token']){
          echo "请勿重复提交";
       }else{

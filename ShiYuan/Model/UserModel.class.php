@@ -19,8 +19,14 @@ class UserModel extends Model{
         return $this->model->select('user','*')->
         where('username = :username and password = :password',$params)->fetchRow();
    }
+    public function checkQ($params){
+        return $this->model->select('user','username,telephone')->
+        where('username = :username or telephone = :telephone',$params)->fetchRow();
+    }
+
     public function userI($params){
-        return $this->model->insert('user',$params)->execute();
+        $this->model->insert('user',$params)->execute();
+        return $this->model->code;
     }
 
 }
