@@ -23,7 +23,14 @@ class UserModel extends Model{
         return $this->model->select('user','username,telephone')->
         where('username = :username or telephone = :telephone',$params)->fetchRow();
     }
-
+    public  function usernameQ($params){
+        return $this->model->select('user','username')->
+        where('username = :username',$params)->fetchRow();
+    }
+    public  function telephoneQ($params){
+        return $this->model->select('user','telephone')->
+        where('telephone = :telephone',$params)->fetchRow();
+    }
     public function userI($params){
         $this->model->insert('user',$params)->execute();
         return $this->model->code;

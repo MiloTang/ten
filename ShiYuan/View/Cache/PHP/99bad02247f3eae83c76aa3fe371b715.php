@@ -55,7 +55,7 @@
     <div class="row">
         <br>
         <div class="col-xs-12">
-        <form class="form-horizontal" id="signupForm" method="post" action="http://localhost/member/verifyLogin">
+        <form class="form-horizontal" id="signupForm" method="post" action="http://localhost/member/login">
 
             <div class="form-group">
                 <div class="input-group input-group-lg">
@@ -99,6 +99,8 @@
             <label  >如果你不是本站会员，<a href="http://localhost/member/register">注册</a>一个账户更方便</label>
             <br>
             <label  ><a href="#">忘记密码</a></label>
+            <br>
+            <i></i>
             <div class="form-group">
                 <button type="button"  class="btn btn-danger btn-lg btn-block" id="subform">登陆</button>
             </div>
@@ -148,68 +150,86 @@
         $('#updatecode').click(function () {
             this.src = "http://localhost/member/code/" + Math.random();
         });
+        var pass=false;
         $('#subform').click(function(){
-            var username=$('#username').val();
-            var password=$('#password').val();
-            var verifycode=$('#verifycode').val();
-            if (username.length<6)
-            {
-                $("i:eq(0)").html("用户名不小于6位");
+            if(pass){
+                $('form').submit();
+            }else {
+                $("i:eq(3)").html("登陆信息不正确,请核对");
                 return false;
-            }
-            if (password.length<6)
-            {
-                $("i:eq(1)").html("密码不小于6位");
-                return false;
-            }
-            if (verifycode.length<4)
-            {
-                $("i:eq(2)").html("验证码不小于4位");
-                return false;
-            }
-            else
-            {
-                $.ajax
-                ({
-                    url: "http://localhost/member/verify",
-                    type: "post",
-                    dataType: "json",
-                    data:{"verifycode":verifycode},
-                    error: function()
-                    {
-                        $("i:eq(2)").html("验证出现问题请稍候再试");
-                        return false;
-                    },
-                    success: function (result)
-                    {
-                        alert(result);
-                        if (result=='true')
-                        {
-                            $('form').submit();
-                        }
-                        else
-                        {
-                            $('#updatecode').attr('src',"http://localhost/member/code/"+ Math.random());
-                            $("i:eq(2)").html("验证码不正确");
-
-                            return false;
-                        }
-                    }
-                });
             }
         });
-
         $('#username').focus(function ()
         {
             $("i:eq(0)").html("");
+            $("i:eq(3)").html("");
+        });
+        $('#username').blur(function ()
+        {
+            if (!(/^[a-zA-z]\w{5,15}$/.test($('#username').val())))
+            {
+                $("i:eq(0)").html("用户名由字母开头的6-16位组成");
+                return false;
+            }else {
+                pass=true;
+            }
+
         });
         $('#password').focus(function ()
         {
             $("i:eq(1)").html("");
+            $("i:eq(3)").html("");
+        });
+        $('#password').blur(function ()
+        {
+            if (!(/^[a-zA-z]\w{5,15}$/.test($('#password').val())))
+            {
+                $("i:eq(1)").html("密码由字母开头的6-16位组成");
+                pass=false;
+                return false;
+            }else{
+                pass=true;
+            }
         });
         $('#verifycode').focus(function ()
         {
             $("i:eq(2)").html("");
+        });
+        $('#verifycode').focus(function ()
+        {
+            $("i:eq(2)").html("");
+            $("i:eq(3)").html("");
+        });
+        $('#verifycode').blur(function ()
+        {
+            if($('#verifycode').val().length!=4){
+                $("i:eq(2)").html("验证码长度不对");
+                return false;
+            }
+            $.ajax
+            ({
+                url: "http://localhost/member/verifyCode",
+                type: "post",
+                dataType: "json",
+                data:{'verifycode':$('#verifycode').val()},
+                error: function()
+                {
+                    $("i:eq(2)").html("验证出现问题请稍候再试");
+                    pass=false;
+                    return false;
+                },
+                success: function (result)
+                {
+                    if(result=='true'){
+                        pass=true;
+                    }else {
+                        $('#updatecode').attr('src',"http://localhost/member/code/"+ Math.random());
+                        $("i:eq(2)").html('验证码不正确');
+                        pass=false;
+                        return false;
+                    }
+                }
+            });
         });
     });
 </script>

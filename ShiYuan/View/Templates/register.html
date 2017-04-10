@@ -64,7 +64,7 @@
                         <div class="input-group-addon">
                             <span  style="color: rgb(255, 140, 60);" class="glyphicon glyphicon-user"></span>
                         </div>
-                        <input class="form-control" name="username" id="username" placeholder="用户名" type="text">
+                        <input class="form-control" name="username" id="username" placeholder="用户名" type="text" required>
                     </div>
                 </div>
                 <i></i>
@@ -73,7 +73,7 @@
                         <div class="input-group-addon">
                             <span  style="color: rgb(255, 140, 60);" class="glyphicon glyphicon-phone"></span>
                         </div>
-                        <input class="form-control" name="telephone" id="telephone" placeholder="电话" type="text">
+                        <input class="form-control" name="telephone" id="telephone" placeholder="电话" type="text" required>
                     </div>
                 </div>
                 <i></i>
@@ -83,7 +83,7 @@
                             <span style="color: rgb(255, 140, 60);"  class="glyphicon glyphicon-lock"></span>
                         </div>
 
-                        <input class="form-control" name="password" id="password" placeholder="密码" type="password">
+                        <input class="form-control" name="password" id="password" placeholder="密码" type="password" required>
                     </div>
                 </div>
                 <i></i>
@@ -94,13 +94,14 @@
                         <div class="input-group-addon">
                             <span>验证码</span>
                         </div>
-                        <input class="form-control" name="verifycode" id="verifycode" placeholder="验证码"  type="text">
+                        <input class="form-control" name="verifycode" id="verifycode" placeholder="验证码"  type="text" required>
                     </div>
                 </div>
                 <i></i>
 
                 <div><img id="updatecode"  src="http://localhost/member/code"/>点击图片刷新</div>
                 <br>
+                <i></i>
                 <input type="hidden" name="token" value="{$token}">
                 <div class="form-group">
                     <button type="button"  class="btn btn-danger btn-lg btn-block" id="subform">登陆</button>
@@ -152,88 +153,142 @@
         $('#updatecode').click(function () {
             this.src = "http://localhost/member/code/" + Math.random();
         });
+        var pass=false;
+
         $('#subform').click(function(){
-            var username=$('#username').val();
-            var telephone=$('#telephone').val();
-            var password=$('#password').val();
-            var verifycode=$('#verifycode').val();
-            if (!(/^[a-zA-z]\w{5,15}$/.test(username)))
-            {
-                $("i:eq(0)").html("用户名由字母、数字、下划线组成，字母开头，6-16位");
-                return false;
-            }
-            if(!(/^1[34578]\d{9}$/.test(telephone))){
-                $("i:eq(1)").html("手机号码有误，请重填");
-                return false;
-            }
-            if (!(/^[a-zA-z]\w{5,15}$/.test(password)))
-            {
-                $("i:eq(2)").html("密码由字母、数字、下划线组成，字母开头，6-16位");
-                return false;
-            }
-            if (verifycode.length!=4)
-            {
-                $("i:eq(3)").html("验证码长度不对");
-                return false;
-            }
-            else
-            {
-                $.ajax
-                ({
-                    url: "http://localhost/member/verify",
-                    type: "post",
-                    dataType: "json",
-                    data:{'username':username,'telephone':telephone,'verifycode':verifycode},
-                    error: function()
-                    {
-                        $("i:eq(3)").html("验证出现问题请稍候再试");
-                        return false;
-                    },
-                    success: function (result)
-                    {
-                        alert(result);
-                        if (result.code=='0')
-                        {
-                            $('form').submit();
-                        }
-                        else
-                        {
 
-                            if(result.code=='2'){
-                                $("i:eq(1)").html(result.err);
-                                return false;
-                            }
-                            if(result.code=='1'){
-                                $('#updatecode').attr('src',"http://localhost/member/code/"+ Math.random());
-                                $("i:eq(3)").html(result.err);
-                                return false;
-                            }
-                            if(result.code=='3'){
-                                $("i:eq(0)").html(result.err);
-                                return false;
-                            }
-
-                        }
-                    }
-                });
+            if (pass){
+                $('form').submit();
+            }else {
+                $("i:eq(4)").html("注册信息不正确,请核对");
+                return false;
             }
         });
 
         $('#username').focus(function ()
         {
             $("i:eq(0)").html("");
+            $("i:eq(4)").html("");
+        });
+        $('#username').blur(function ()
+        {
+            if (!(/^[a-zA-z]\w{5,15}$/.test($('#username').val())))
+            {
+                $("i:eq(0)").html("用户名由字母开头的6-16位组成");
+                return false;
+            }
+            $.ajax
+            ({
+                url: "http://localhost/member/verifyName",
+                type: "post",
+                dataType: "json",
+                data:{'username':$('#username').val()},
+                error: function()
+                {
+                    $("i:eq(0)").html("验证出现问题请稍候再试");
+                    pass=false;
+                    return false;
+                },
+                success: function (result)
+                {
+                    if(result=='true'){
+                        pass=true;
+                    }else {
+                        $("i:eq(0)").html('用户名已被注册');
+                        pass=false;
+                        return false;
+                    }
+                }
+            });
         });
         $('#telephone').focus(function ()
         {
             $("i:eq(1)").html("");
+            $("i:eq(4)").html("");
+        });
+        $('#telephone').blur(function ()
+        {
+            if (!(/^1[34578]\d{9}$/.test($('#telephone').val())))
+            {
+                $("i:eq(1)").html("手机号码有误，请重填");
+                return false;
+            }
+            $.ajax
+            ({
+                url: "http://localhost/member/verifyTel",
+                type: "post",
+                dataType: "json",
+                data:{'telephone':$('#telephone').val()},
+                error: function()
+                {
+                    $("i:eq(1)").html("验证出现问题请稍候再试");
+                    pass=false;
+                    return false;
+                },
+                success: function (result)
+                {
+                    if(result=='true'){
+                        pass=true;
+                    }else {
+                        $("i:eq(1)").html('电话号码已被注册');
+                        pass=false;
+                        return false;
+                    }
+                }
+            });
         });
         $('#password').focus(function ()
         {
             $("i:eq(2)").html("");
+            $("i:eq(4)").html("");
+        });
+        $('#password').blur(function ()
+        {
+            if (!(/^[a-zA-z]\w{5,15}$/.test($('#password').val())))
+            {
+                $("i:eq(2)").html("密码由字母开头的6-16位组成");
+                pass=false;
+                return false;
+            }else{
+                pass=true;
+            }
         });
         $('#verifycode').focus(function ()
         {
             $("i:eq(3)").html("");
+            $("i:eq(4)").html("");
+        });
+        $('#verifycode').blur(function ()
+        {
+            if($('#verifycode').val().length!=4){
+                $("i:eq(3)").html("验证码长度不对");
+                return false;
+            }
+            $.ajax
+            ({
+                url: "http://localhost/member/verifyCode",
+                type: "post",
+                dataType: "json",
+                data:{'verifycode':$('#verifycode').val()},
+                error: function()
+                {
+                    $("i:eq(3)").html("验证出现问题请稍候再试");
+                    pass=false;
+                    return false;
+                },
+                success: function (result)
+                {
+                    if(result=='true'){
+                        pass=true;
+                    }else {
+                        $('#updatecode').attr('src',"http://localhost/member/code/"+ Math.random());
+                        $("i:eq(3)").html('验证码不正确');
+                        pass=false;
+                        return false;
+                    }
+                }
+            });
+
         });
     });
 </script>

@@ -45,6 +45,7 @@
 
 <div class="text-center label-warning">
     <img  src="http://localhost/Public/static/images/b.jpg" class="img-circle" style="height: 128px;width: 128px">
+    <div></div><span class="text-center"><a href="http://localhost/member/destroy">注销</a></span></div>
 </div>
 
 <div class="container">
