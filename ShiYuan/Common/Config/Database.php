@@ -18,9 +18,16 @@ $sql2="CREATE TABLE IF NOT EXISTS user (
    login_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, 
    login_ip VARCHAR(32) NOT NULL,
    register_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-   addr1 VARCHAR(100) NOT NULL DEFAULT '',
-   addr2 VARCHAR(100) NOT NULL DEFAULT '',
-   addr3 VARCHAR(100) NOT NULL DEFAULT '',
    UNIQUE(username),
    PRIMARY KEY (userid)
   )engine=INNODB auto_increment=10000000 default charset=utf8;";
+
+$sql3="CREATE TABLE IF NOT EXISTS takeinfo (
+   userid INT NOT NULL,
+   is_default_add CHAR(1) DEFAULT 'N',  
+   take_name VARCHAR(20) NOT NULL,
+   take_telephone CHAR(11) NOT NULL,
+   take_region VARCHAR(30) NOT NULL,
+   take_detail_addr VARCHAR(30) NOT NULL,
+   FOREIGN KEY (userid)
+  )engine=INNODB default charset=utf8;";

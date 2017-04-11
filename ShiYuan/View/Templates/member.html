@@ -58,16 +58,16 @@
             <a href="http://localhost/member/accountlevel" >会员等级</a>
             <span class="glyphicon glyphicon-chevron-right pull-right" ></span>
             <hr>
-            <a href="#" >修改信息</a>
+            <a href="http://localhost/member/accountUpdate" >修改信息</a>
             <span class="glyphicon glyphicon-chevron-right pull-right" ></span>
             <hr>
-            <a href="#" >修改密码</a>
+            <a href="http://localhost/member/passwordUpdate" >修改密码</a>
             <span class="glyphicon glyphicon-chevron-right pull-right" ></span>
             <hr>
-            <a href="#" >收货地址</a>
+            <a href="http://localhost/member/manageAddress" >收货地址</a>
             <span class="glyphicon glyphicon-chevron-right pull-right" ></span>
             <hr>
-            <a href="#" >收藏商品</a>
+            <a href="http://localhost/member/loveProduction" >收藏商品</a>
             <span class="glyphicon glyphicon-chevron-right pull-right" ></span>
         </div>
     </div>

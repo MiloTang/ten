@@ -3,6 +3,7 @@ namespace ShiYuan\Controller;
 use Core\Libs\BaseController;
 use Core\Libs\VerifyCode;
 use ShiYuan\Model\UserModel;
+use Vendor\CropAvatar;
 
 class MemberController extends BaseController
 {
@@ -117,7 +118,42 @@ class MemberController extends BaseController
       if ($this->login){
          $Title="十元小店商品列表";
          $this->assign('Title',$Title);
+         $this->assign('Level',$this->_level());
          $this->display('accountlevel.html');
+      }
+   }
+   public function accountUpdate()
+   {
+      if ($this->login){
+         $Title="十元小店商品列表";
+         $this->assign('Title',$Title);
+         $this->assign('email',$_SESSION['info']['email']);
+         $this->assign('telephone',$_SESSION['info']['telephone']);
+         $this->display('accountupdate.html');
+      }
+   }
+   public function passwordUpdate()
+   {
+      if ($this->login){
+         $Title="十元小店商品列表";
+         $this->assign('Title',$Title);
+         $this->display('passwordupdate.html');
+      }
+   }
+   public function manageAddress()
+   {
+      if ($this->login){
+         $Title="十元小店商品列表";
+         $this->assign('Title',$Title);
+         $this->display('manageaddress.html');
+      }
+   }
+   public function loveProduction()
+   {
+      if ($this->login){
+         $Title="十元小店商品列表";
+         $this->assign('Title',$Title);
+         $this->display('loveproduction.html');
       }
    }
    public function code(){
@@ -186,4 +222,25 @@ class MemberController extends BaseController
       }
       return $ip;
    }
+   private function _level(){
+      switch ($_SESSION['info']['user_level']){
+         case 1-999 :
+              $level='初级会员';
+              break;
+         case 1000-999999 :
+              $level='黄金会员';
+              break;
+         case 1000000-99999999 :
+              $level='白金会员';
+              break;
+         case 100000000-99999999999 :
+              $level='砖石会员';
+              break;
+         default:
+              $level='注册会员';
+              break;
+      }
+      return $level;
+   }
+
 }
